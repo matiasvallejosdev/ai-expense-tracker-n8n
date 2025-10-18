@@ -532,25 +532,39 @@
       "typeVersion": 1,
       "position": [
         1584,
-        16
+        -16
       ],
       "id": "15ade259-1a96-4fef-811d-c3efe38d6abf",
       "name": "Sticky Note5"
     },
     {
       "parameters": {
-        "content": "Author: Matías Vallejos — Córdoba, Argentina 🇦🇷\n\nOpen Source project (MIT License).\n\nInspired by ‘El Hombre Más Rico de Babilonia’ & ‘La Bolsa o la Vida.’",
-        "height": 192,
-        "width": 288
+        "content": "Author & Community\n\nMatías Vallejos — Argentino 🇦🇷\nFounder @ Docta Valley\n\n𝕏 @mativallejosdev",
+        "height": 128
       },
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        1552,
-        208
+        1584,
+        112
       ],
       "id": "c5f52bfc-5dbd-4001-b4e3-6440b8eb447c",
       "name": "Sticky Note6"
+    },
+    {
+      "parameters": {
+        "content": "Google Drive (Input Folder)\nUpload your bank or credit card PDFs here.\n\nDrive Folder — AI Expense Tracker Inputs\n\nFolder ID: 16G0cnl6PA_ds68Q-sj4-E71sdmt8K0Jp\n\nGoogle Sheets (Output Dashboard)\n\nAll parsed and categorized transactions are appended here.\n\nGoogle Sheets Template — AI Expense Tracker\n\nMake a Copy of the Template\n\nSpreadsheet ID: 1CxrFIACqAUA7uu7fivSMhzzHtaIfcpxcIVr4NxnCObo",
+        "height": 496,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1056,
+        -544
+      ],
+      "id": "b09c4d1f-e475-497e-ae21-e5a82cacbe5d",
+      "name": "Sticky Note7"
     }
   ],
   "pinData": {},
@@ -741,7 +755,7 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "9a150233-eb06-44ac-856c-39b6a790b82e",
+  "versionId": "63418517-7b71-42b7-8482-7b3360763e1b",
   "meta": {
     "instanceId": "ac3a2c06a85aeffb46cb0b0fc132d4b7cfdac0325c686025ac53dedf8488df1f"
   },
