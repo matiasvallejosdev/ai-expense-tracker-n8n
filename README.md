@@ -150,7 +150,7 @@ If you have questions, suggestions, or want to collaborate:
 
 This project is open source and available under the [MIT License](LICENSE).
 
-### 🧠 Inspiration
+## 🧠 Inspiration
 
 > “Control your money, or your money will control you.” — *La Bolsa o la Vida*
 
