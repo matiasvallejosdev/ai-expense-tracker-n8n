@@ -137,7 +137,7 @@
     },
     {
       "parameters": {
-        "jsCode": "const items = $input.all();\n\n// Tax-related terms to exclude\nconst excludedTerms = [\n  'Impuesto de Sellos',\n  'PIIBB',\n  'Percep',\n  'IVA RG',\n  'DB.RG',\n  'Impuesto',\n  'Percepción',\n  'Retención'\n];\n\nreturn items\n  .filter(item => {\n    // Check if Month exists and Currency is not USD\n    if (!item.json.Month || item.json.Currency === 'USD') {\n      return false;\n    }\n    \n    // Check if Concept contains any excluded terms\n    const concept = item.json.Concept || '';\n    const hasExcludedTerm = excludedTerms.some(term => \n      concept.toLowerCase().includes(term.toLowerCase())\n    );\n    \n    return !hasExcludedTerm;\n  })\n  .map(item => ({\n    json: {\n      Month: item.json.Month,\n      Date: item.json.Date,\n      Concept: item.json.Concept,\n      Payment_Method: item.json.Payment_Method,\n      Category: item.json.Category,\n      Amount: item.json.Amount,\n      Currency: item.json.Currency\n    }\n  }));"
+        "jsCode": "const items = $input.all();\n\n// Tax-related terms to exclude\nconst excludedTerms = [\n  'Impuesto de Sellos',\n  'PIIBB',\n  'Percep',\n  'IVA RG',\n  'DB.RG',\n  'Impuesto',\n  'Percepción',\n  'Retención'\n];\n\nreturn items\n  .filter(item => {\n    // Keep only rows that have a month\n    if (!item.json.Month) {\n      return false;\n    }\n\n    // Exclude tax-related lines\n    const concept = item.json.Concept || '';\n    const hasExcludedTerm = excludedTerms.some(term =>\n      concept.toLowerCase().includes(term.toLowerCase())\n    );\n\n    return !hasExcludedTerm;\n  })\n  .map(item => ({\n    json: {\n      Month: item.json.Month,\n      Date: item.json.Date,\n      Concept: item.json.Concept,\n      Payment_Method: item.json.Payment_Method,\n      Category: item.json.Category,\n      Amount: item.json.Amount,\n      Currency: item.json.Currency\n    }\n  }));"
       },
       "id": "be3332c5-e480-4498-8e29-1c675fd317fe",
       "name": "Filter Transaction Data Only",
@@ -240,9 +240,9 @@
       "parameters": {
         "model": {
           "__rl": true,
-          "value": "gpt-5-chat-latest",
+          "value": "chatgpt-4o-latest",
           "mode": "list",
-          "cachedResultName": "gpt-5-chat-latest"
+          "cachedResultName": "chatgpt-4o-latest"
         },
         "options": {}
       },
@@ -284,9 +284,9 @@
       "parameters": {
         "model": {
           "__rl": true,
-          "value": "gpt-5-chat-latest",
+          "value": "chatgpt-4o-latest",
           "mode": "list",
-          "cachedResultName": "gpt-5-chat-latest"
+          "cachedResultName": "chatgpt-4o-latest"
         },
         "options": {}
       },
@@ -741,7 +741,7 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "8d9c0424-0b1a-47eb-987f-c26bd5641828",
+  "versionId": "9a150233-eb06-44ac-856c-39b6a790b82e",
   "meta": {
     "instanceId": "ac3a2c06a85aeffb46cb0b0fc132d4b7cfdac0325c686025ac53dedf8488df1f"
   },
