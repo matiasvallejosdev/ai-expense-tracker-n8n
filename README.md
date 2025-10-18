@@ -158,7 +158,6 @@ If you have questions, suggestions, or want to collaborate:
 
 - **Name:** Matías Vallejos
 - 🌐 [matiasvallejos.com](https://matiasvallejos.com)
-- 🧠 Founder @ [Docta Valley](https://twitter.com/doctavalley) — Córdoba 🇦🇷
 - 𝕏 [@mativallejosdev](https://x.com/mativallejosdev)
 
 ## 📄 License
