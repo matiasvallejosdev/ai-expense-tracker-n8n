@@ -1,5 +1,6 @@
 # 💸 AI Expense Tracker — n8n + Google Drive + Sheets
 
+[![X (formerly Twitter) Follow](https://img.shields.io/twitter/follow/mativallejosdev?style=social)](https://x.com/mativallejosdev)
 [![GitHub top language](https://img.shields.io/github/languages/top/matiasvallejosdev/ai-expense-tracker-n8n?color=1081c2)](https://github.com/matiasvallejosdev/ai-expense-tracker-n8n/search?l=json)
 ![License](https://img.shields.io/github/license/matiasvallejosdev/ai-expense-tracker-n8n?label=license&logo=github&color=f80&logoColor=fff)
 ![Forks](https://img.shields.io/github/forks/matiasvallejosdev/ai-expense-tracker-n8n.svg)
@@ -67,6 +68,18 @@ Inspired by *“El Hombre Más Rico de Babilonia”* and *“La Bolsa o la Vida�
 6. **Run it**
    * Upload a PDF statement into that folder.
    * Watch your Google Sheet auto-populate with parsed transactions!
+
+### 🗂️ Google Drive Folder (Input)
+This is where you should upload your bank statement PDFs.
+📁 [Open the Drive Folder](https://drive.google.com/drive/folders/16G0cnl6PA_ds68Q-sj4-E71sdmt8K0Jp?usp=sharing)
+
+Each file you drop there (e.g. `statement_visa.pdf`) will trigger the workflow and automatically process it.
+
+### 📊 Google Sheets Template (Output)
+All categorized data will be appended automatically to this Google Sheets template:
+📈 [Open the Google Sheets Template](https://docs.google.com/spreadsheets/d/1CxrFIACqAUA7uu7fivSMhzzHtaIfcpxcIVr4NxnCObo/edit?usp=sharing)
+
+Or click **[Make a Copy](https://docs.google.com/spreadsheets/d/1CxrFIACqAUA7uu7fivSMhzzHtaIfcpxcIVr4NxnCObo/copy)** to create your own editable version.
 
 ## 🧩 Detailed Setup (Developers)
 
@@ -143,8 +156,10 @@ Make sure to include a **redacted PDF example** if your update changes extractio
 
 If you have questions, suggestions, or want to collaborate:
 
-* **Name:** Matías Vallejos
-* 🌐 [matiasvallejos.com](https://matiasvallejos.com/)
+- **Name:** Matías Vallejos
+- 🌐 [matiasvallejos.com](https://matiasvallejos.com)
+- 🧠 Founder @ [Docta Valley](https://twitter.com/doctavalley) — Córdoba 🇦🇷
+- 𝕏 [@mativallejosdev](https://x.com/mativallejosdev)
 
 ## 📄 License
 
