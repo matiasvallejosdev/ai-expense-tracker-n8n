@@ -8,7 +8,7 @@
 
 > Automatically extract and organize expenses from bank statement PDFs into Google Sheets using AI, n8n, and Google Drive.
 
----
+![Workflow Overview](docs/workflow-overview.png)
 
 ## 📘 Introduction
 
