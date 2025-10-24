@@ -7,7 +7,7 @@
 ![Stars](https://img.shields.io/github/stars/matiasvallejosdev/ai-expense-tracker-n8n.svg)
 ![Watchers](https://img.shields.io/github/watchers/matiasvallejosdev/ai-expense-tracker-n8n.svg)
 
-> Automatically extract and organize expenses from bank statement PDFs into Google Sheets using AI, n8n, and Google Drive.
+> Automatically extract and organize expenses from bank statements (PDFs/images) into Google Sheets using AI, n8n, and a modern web interface. One-command Docker setup.
 
 ![Workflow Overview](docs/workflow.jpg)
 
@@ -15,23 +15,111 @@
 
 **AI Expense Tracker** is a low-code automation built with **n8n** that leverages **OpenAI**, **Google Drive**, and **Google Sheets** to automate personal finance tracking.
 
-Just upload your **bank statement PDF**, and the workflow will:
+**Two ways to use it:**
+- 🌐 **Web App** – Upload receipts and bank statements (PDFs or images) via a simple Next.js interface
+- 📁 **Google Drive** – Drop files into a folder and let automation handle the rest
 
-1. Extract the data using AI.
+Just upload your **bank statement PDF or receipt image**, and the workflow will:
+
+1. Extract the data using AI (supports PDFs and images).
 2. Categorize each expense intelligently.
 3. Append the results to a structured Google Sheet dashboard.
 
-Inspired by *“El Hombre Más Rico de Babilonia”* and *“La Bolsa o la Vida”*, this project promotes financial awareness and digital independence through automation.
+Inspired by *"El Hombre Más Rico de Babilonia"* and *"La Bolsa o la Vida"*, this project promotes financial awareness and digital independence through automation.
 
 ## ✨ Key Features
 
+- **🐳 Docker Support** – One-command setup with Docker Compose. Works on any machine.
+- **🌐 Web App Interface** – Upload receipts and bank statements via a simple web UI (supports PDFs and images).
 - **Google Drive Integration** – Drop your bank statement PDFs into a folder, and the system takes it from there.
 - **AI-Powered Parsing** – Uses GPT-4o to read and structure your expenses into JSON.
 - **Categorization Agent** – Classifies expenses into fixed categories (Supermarket, Gastronomy, etc.).
-- **Automatic Google Sheets Sync** – Generates a new “Expenses {Month}” tab and appends all transactions.
+- **Automatic Google Sheets Sync** – Generates a new "Expenses {Month}" tab and appends all transactions.
 - **Open Source** – Fully local, no external servers, and zero maintenance cost.
 
-## ⚙️ Quick Start (No-Code)
+## 🚀 Quick Start (Docker - Recommended)
+
+The easiest way to get started is with Docker Compose. This will set up both the n8n automation engine and the web app in one command.
+
+### Prerequisites
+- [Docker](https://docs.docker.com/get-docker/) and [Docker Compose](https://docs.docker.com/compose/install/) installed.
+- A [Google Cloud Project](https://console.cloud.google.com/) with:
+  - **Google Drive API** enabled.
+  - **Google Sheets API** enabled.
+- A Google Sheet based on the provided template (`/templates/balance.xlsx`).
+
+### Steps
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/matiasvallejosdev/ai-expense-tracker-n8n.git
+   cd ai-expense-tracker-n8n
+   ```
+
+2. **Configure environment variables**
+   ```bash
+   cp .env.example .env
+   ```
+   Edit `.env` and add your Google Sheets dashboard URL:
+   ```bash
+   NEXT_PUBLIC_DASHBOARD_URL=https://docs.google.com/spreadsheets/d/YOUR_SPREADSHEET_ID/edit
+   ```
+
+3. **Create the n8n volume**
+   ```bash
+   docker volume create n8n_data
+   ```
+
+4. **Start all services**
+   ```bash
+   docker-compose up -d
+   ```
+
+5. **Access the applications**
+   - **Web App**: http://localhost:3000 (Upload PDFs and images of receipts/statements)
+   - **n8n Dashboard**: http://localhost:5678 (Configure workflows and credentials)
+
+6. **Configure n8n credentials**
+   - Go to http://localhost:5678
+   - Import the workflow from `/n8n/ai-expense-tracker-n8n.json`
+   - Set up Google Drive OAuth2 and Google Sheets OAuth2 credentials
+   - Use the redirect URI: `http://localhost:5678/rest/oauth2-credential/callback`
+
+7. **Upload your first expense**
+   - Go to http://localhost:3000
+   - Upload a bank statement PDF or receipt image (JPG, PNG)
+   - Watch it automatically appear in your Google Sheet!
+
+📖 **Need help with Docker?** Check out the [Docker Guide](DOCKER-GUIDE.md) for detailed explanations.
+
+### Managing Your Docker Application
+
+```bash
+# Stop all services
+docker-compose down
+
+# View logs
+docker-compose logs -f
+
+# View logs for specific service
+docker-compose logs -f web-app
+docker-compose logs -f n8n
+
+# Restart services
+docker-compose restart
+
+# Rebuild and restart (after code changes)
+docker-compose up --build -d
+
+# Stop and remove everything (including volumes - ⚠️ deletes n8n data)
+docker-compose down -v
+```
+
+---
+
+## ⚙️ Alternative Setup (Manual n8n)
+
+If you prefer to run n8n manually without Docker:
 
 ### Prerequisites
 - [n8n](https://n8n.io/) installed locally.
@@ -83,19 +171,43 @@ Or click **[Make a Copy](https://docs.google.com/spreadsheets/d/1CxrFIACqAUA7uu7
 
 ## 🧩 Detailed Setup (Developers)
 
-For more control or to debug:
+### Tech Stack
+
+**Backend (n8n Workflow)**
+- n8n workflow automation
+- OpenAI GPT-4o for text extraction and categorization
+- Google Drive API
+- Google Sheets API
+
+**Frontend (Web App)**
+- Next.js 16 (React 19)
+- TypeScript
+- Tailwind CSS 4
+- Shadcn/ui components
+- React Hook Form + Zod validation
+- Docker multi-stage builds
+
+### Customization
 
 1. **Customize Agents**
-   * `AI Agent` → parses raw text from PDF.
+   * `AI Agent` → parses raw text from PDF/image.
    * `AI Agent – Structure Data` → converts it into a valid JSON array.
 
 2. **Processing Flow**
-   * Google Drive Trigger → Download PDF → Extract Text → AI Parse → JSON Normalize → Filter Transactions → Append to Sheet.
+   * Web Upload/Google Drive Trigger → Download File → Extract Text (OCR for images) → AI Parse → JSON Normalize → Filter Transactions → Append to Sheet.
 
 3. **Script Filters**
    * Automatically ignores tax lines (`IVA`, `Percepciones`, `Impuesto de Sellos`, etc.) and USD duplicates.
 
-4. **Output Schema**
+4. **Web App Development**
+   ```bash
+   cd web-app
+   npm install
+   npm run dev
+   ```
+   The app will be available at http://localhost:3000
+
+5. **Output Schema**
    | Field            | Type   | Description                           |
    | ---------------- | ------ | ------------------------------------- |
    | `Month`          | string | Month extracted from transaction date |
@@ -116,20 +228,52 @@ For more control or to debug:
 
 You can extend these categories directly in the **AI prompts** or in the **Google Sheet data validation lists**.
 
-## 🤖 Workflow Overview
+## 🤖 Architecture Overview
 
-1. **Google Drive Trigger** → watches a specific folder.
-2. **Download PDF** → fetches new statements.
-3. **Extract File Data** → converts PDF to text.
-4. **Data Parser & Cleaner** → formats the text.
-5. **AI Agent (GPT-4o)** → extracts transactions.
-6. **AI Agent – Structure Data** → converts to JSON array.
-7. **Parse JSON Output** → validates structure.
-8. **Aggregate → Duplicate Sheet → Append to Sheet** → final output in your balance template.
+### Input Methods
 
-> Everything runs locally on your machine through your n8n instance — your data stays 100% private.
+**Option 1: Web App (Next.js)**
+1. User uploads file via web interface (http://localhost:3000)
+2. File sent to n8n webhook endpoint
+3. n8n processes the file
+
+**Option 2: Google Drive Trigger**
+1. User drops file in Google Drive folder
+2. n8n watches folder and detects new files
+3. n8n downloads and processes the file
+
+### Processing Pipeline (Both Methods)
+
+1. **File Input** → Web upload or Google Drive trigger
+2. **Extract File Data** → Converts PDF/image to text using OCR and AI
+3. **Data Parser & Cleaner** → Formats the raw text
+4. **AI Agent (GPT-4o)** → Extracts transactions from text
+5. **AI Agent – Structure Data** → Converts to JSON array
+6. **Parse JSON Output** → Validates structure
+7. **Aggregate → Duplicate Sheet → Append to Sheet** → Final output in your balance template
+
+> Everything runs locally on your machine through Docker — your data stays 100% private.
+
+### Docker Services
+
+- **n8n** (port 5678) – Workflow automation engine
+- **web-app** (port 3000) – Next.js frontend for file uploads
+
+Both services communicate over a Docker bridge network.
 
 ## 💡 Usage
+
+### Using the Web App (Recommended)
+
+1. **Open the web interface** at http://localhost:3000
+2. **Upload your expense document**:
+   - ✅ Bank statement PDFs
+   - ✅ Receipt images (JPG, PNG)
+   - ✅ Ticket photos from your phone
+3. **Wait for AI processing** (usually 5-10 seconds)
+4. **Check your Google Sheet** – new transactions appear automatically!
+
+### Using Google Drive Trigger (Alternative)
 
 * Upload PDF → Wait for execution → Open your **Google Sheet**.
 * The system auto-creates a new sheet for each month:
@@ -143,14 +287,25 @@ You can extend these categories directly in the **AI prompts** or in the **Googl
 ## 🤝 Contributing
 
 Contributions are welcome!
-If you want to improve parsing logic, add new categories, or optimize the workflow:
+If you want to improve parsing logic, add new categories, optimize the workflow, or enhance the web app:
 
 1. Fork the repository.
 2. Create a feature branch.
-3. Commit and push your changes.
-4. Open a Pull Request.
+3. Make your changes:
+   - **n8n workflows**: Edit JSON files in `/n8n/`
+   - **Web app**: Edit files in `/web-app/`
+   - **Docker setup**: Update `docker-compose.yml` or `Dockerfile`
+4. Test your changes with Docker:
+   ```bash
+   docker-compose up --build
+   ```
+5. Commit and push your changes.
+6. Open a Pull Request.
 
-Make sure to include a **redacted PDF example** if your update changes extraction logic.
+**Guidelines:**
+- Include a **redacted PDF/image example** if your update changes extraction logic
+- Test both input methods (web app and Google Drive) if modifying the processing pipeline
+- Update the README if you add new features or change setup steps
 
 ## 📞 Contact
 

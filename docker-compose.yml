@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  # N8N Automation Service
+  n8n:
+    image: n8nio/n8n:latest
+    container_name: ai-expense-tracker-n8n
+    restart: unless-stopped
+    ports:
+      - "5678:5678"
+    environment:
+      - N8N_PORT=5678
+      - N8N_PROTOCOL=http
+      - N8N_HOST=localhost
+      - WEBHOOK_URL=http://localhost:5678/
+      - GENERIC_TIMEZONE=America/New_York
+      - N8N_METRICS=true
+    volumes:
+      - n8n_data:/home/node/.n8n
+      - ./n8n-workflows:/home/node/.n8n/workflows
+    networks:
+      - expense-tracker-network
+
+  # Next.js Web Application
+  web-app:
+    build:
+      context: ./web-app
+      dockerfile: Dockerfile
+    container_name: ai-expense-tracker-web
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - NEXT_PUBLIC_WEBHOOK_URL=http://n8n:5678/webhook-test/upload-expense
+      - NEXT_PUBLIC_DASHBOARD_URL=${NEXT_PUBLIC_DASHBOARD_URL}
+    depends_on:
+      - n8n
+    networks:
+      - expense-tracker-network
+
+volumes:
+  n8n_data:
+    external: true
+
+networks:
+  expense-tracker-network:
+    driver: bridge
