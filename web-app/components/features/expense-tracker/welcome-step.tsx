@@ -27,6 +27,7 @@ import {
   BookOpen,
 } from "lucide-react";
 import type { WelcomeStepProps } from "@/types/expense-tracker";
+import { DASHBOARD_URL } from "@/lib/constants";
 
 export default function WelcomeStep({ onGetStarted }: WelcomeStepProps) {
   const [isGuideOpen, setIsGuideOpen] = useState(false);
@@ -90,22 +91,34 @@ export default function WelcomeStep({ onGetStarted }: WelcomeStepProps) {
         {/* CTA Button */}
         <Button
           onClick={onGetStarted}
-          className="w-full h-12 text-base font-semibold bg-primary text-primary-foreground hover:bg-primary/90 transition-colors shadow-lg"
+          className="w-full h-11 text-base font-medium shadow-sm"
           size="lg"
         >
           Get Started
         </Button>
 
-        {/* Setup Guide Button */}
-        <Button
-          onClick={() => setIsGuideOpen(true)}
-          variant="ghost"
-          className="w-full h-10 text-sm"
-          size="lg"
-        >
-          <BookOpen className="w-4 h-4 mr-2" />
-          View Setup Guide
-        </Button>
+        {/* Secondary Actions */}
+        <div className="mt-4 space-y-2">
+          <Button
+            variant="outline"
+            className="w-full h-10 text-sm font-normal"
+            asChild
+          >
+            <a href={DASHBOARD_URL} target="_blank" rel="noopener noreferrer">
+              <BarChart3 className="w-4 h-4 mr-2" />
+              View Dashboard
+            </a>
+          </Button>
+
+          <Button
+            onClick={() => setIsGuideOpen(true)}
+            variant="ghost"
+            className="w-full h-10 text-sm font-normal"
+          >
+            <BookOpen className="w-4 h-4 mr-2" />
+            View Setup Guide
+          </Button>
+        </div>
 
         <div className="mt-5 pt-4 border-t border-border">
           <div className="text-center space-y-2">
